@@ -4,22 +4,22 @@
       version="5.0"
       xml:id="enter-environment">
 
-  <title>Enter Environment</title>
+  <title>Enter the environment</title>
 
   <para>
-    Welcome to the third Nix pill. In the previous <link
-    linkend="install-on-your-running-system">second pill</link> we have
+    Welcome to the third Nix pill. In the <link
+    linkend="install-on-your-running-system">second pill</link> we 
     installed Nix on our running system. Now we can finally play with it a
-    little, things also apply to NixOS users.
+    little, these things also apply to NixOS users.
   </para>
 
   <section>
     <title>Enter the environment</title>
 
     <para>
-      In the previous pill we created a nix user, so let's start by switching
-      user with <literal>su - nix</literal>. If your
-      <literal>~/.profile</literal> got evaluated, then your should now be able
+      In the previous article we created a Nix user, so let's start by switching
+      user with <command>su - nix</command>. If your
+      <filename>~/.profile</filename> got evaluated, then your should now be able
       to run commands like <literal>nix-env</literal> and
       <literal>nix-store</literal>.
     </para>
@@ -31,8 +31,8 @@
     <screen><xi:include href="./03/source-nix.txt" parse="text" /></screen>
 
     <para>
-      I remind you, <literal>~/.nix-profile/etc</literal> points to the nix-1.7
-      derivation. At this point, we are in our nix user profile.
+      I remind you, <literal>~/.nix-profile/etc</literal> points to the <literal>nix-1.7</literal>
+      derivation. At this point, we are in our Nix user profile.
     </para>
   </section>
 
@@ -40,8 +40,8 @@
     <title>Install something</title>
 
     <para>
-      Finally something practical! Installation in the nix environment is an
-      interesting process. Let's install nix-repl, a simple command line tool
+      Finally something practical! Installation in the Nix environment is an
+      interesting process. Let's install <literal>nix-repl</literal>, a simple command line tool
       for playing with the Nix language. Yes, Nix is a <link xlink:href="http://nixos.org/nix/manual/#idm47361539226272">
         pure, lazy, functional language</link>, not only a set of tools to
       manage derivations.
@@ -54,19 +54,18 @@
     <screen><xi:include href="./03/install-repl.txt" parse="text" /></screen>
 
     <para>
-      Now you can run nix-repl. Things to notice:
+      Now you can run <literal>nix-repl</literal>. Things to notice:
     </para>
-
     <itemizedlist>
       <listitem>
         <para>
-          We did install software as user, only for the nix user.
+          We installed software as a user, and only for the Nix user.
         </para>
       </listitem>
       <listitem>
         <para>
           It created a new user environment. That's a new generation of our
-          nix user profile.
+          Nix user profile.
         </para>
       </listitem>
       <listitem>
@@ -78,31 +77,31 @@
       </listitem>
       <listitem>
         <para>
-          We installed nix-repl by derivation name minus the version. I repeat:
-          we did specify the <emphasis role="bold">derivation name</emphasis>
-          (minus the version) to install.
+          We installed <literal>nix-repl</literal> by derivation name minus the version. I repeat:
+          we specified the <emphasis role="bold">derivation name</emphasis>
+          (minus the version) to install it.
         </para>
       </listitem>
     </itemizedlist>
 
     <para>
-      We can list generations without walking through the /nix hierarchy:
+      We can list generations without walking through the <filename>/nix</filename> hierarchy:
     </para>
 
     <screen><xi:include href="./03/list-generations.txt" parse="text" /></screen>
 
     <para>
-      List installed derivations:
+      Listing installed derivations:
     </para>
 
     <screen><xi:include href="./03/list-installed-derivations.txt" parse="text" /></screen>
 
     <para>
-      So, where did nix-repl really get installed?
+      So, where did <literal>nix-repl</literal> really get installed?
       <literal>which nix-repl</literal> is
       <literal>~/.nix-profile/bin/nix-repl</literal> which points to the store.
-      We can also list the derivation paths with nix-env -q --out-path. So
-      that's how those derivation paths are called: the
+      We can also list the derivation paths with <command>nix-env -q --out-path</command>. So
+      that's what those derivation paths are called: the
       <emphasis role="bold">output</emphasis> of a build.
     </para>
   </section>
@@ -111,10 +110,11 @@
     <title>Path merging</title>
 
     <para>
-      At this point you sure have the necessity to run "man". Even if you
-      already have man system-wide outside of the nix environment, you can
-      install and use it within nix with <literal>nix-env -i man</literal>. As
-      usual, a new generation will be created, and ~/.nix-profile will point to
+      At this point you probably want to run <literal>man</literal> to get some documentation.
+      Even if you
+      already have man system-wide outside of the Nix environment, you can
+      install and use it within Nix with <command>nix-env -i man</command>. As
+      usual, a new generation will be created, and <filename>~/.nix-profile</filename> will point to
       it.
     </para>
 
@@ -127,26 +127,26 @@
     <screen><xi:include href="./03/ls-nix-profile.txt" parse="text" /></screen>
 
     <para>
-      Now that's interesting. When only nix-1.7 was installed, bin/ was a
-      symlink to nix-1.7. Now that we've actually installed some things
-      (man, nix-repl), it's a real directory, not a symlink.
+      Now that's interesting. When only <literal>nix-1.7</literal> was installed, <filename>bin</filename> was a
+      symlink to <literal>nix-1.7</literal>. Now that we've actually installed some things
+      (<literal>man</literal>, <literal>nix-repl</literal>), it's a real directory, not a symlink.
     </para>
 
     <screen><xi:include href="./03/ls-profile-bin.txt" parse="text" /></screen>
 
     <para>
-      All clear. nix-env merged the paths from the installed derivations.
-      <literal>which man</literal> points to the nix profile, rather than the
-      system man, because <literal>~/.nix-profile/bin</literal> is at the head
-      of <literal>$PATH</literal>.
+      Okay, that's clearer now. <literal>nix-env</literal> merged the paths from the installed derivations.
+      <command>which man</command> points to the Nix profile, rather than the
+      system <literal>man</literal>, because <filename>~/.nix-profile/bin</filename> is at the head
+      of <varname>$PATH</varname>.
     </para>
   </section>
 
   <section>
-    <title>Rollback / switch generation</title>
+    <title>Rolling back and switching generation</title>
 
     <para>
-      The last command installed "man". We should be at generation #3, unless
+      The last command installed <literal>man</literal>. We should be at generation 3, unless
       you changed something in the middle. Let's say we want to rollback to the
       old generation:
     </para>
@@ -154,21 +154,20 @@
     <screen><xi:include href="./03/rollback.txt" parse="text" /></screen>
 
     <para>
-      Now <literal>nix-env -q</literal> does not list "man" anymore.
-      <literal>ls -l `which man`</literal> should now be your system installed
-      one.
+      Now <command>nix-env -q</command> does not list <literal>man</literal> anymore.
+      <command>ls -l `which man`</command> should now be your system copy.
     </para>
 
     <para>
-      Enough with the joke, let's go back to the last generation:
+      Enough with the rollback, let's go back to the most recent generation:
     </para>
 
     <screen><xi:include href="./03/generation-3.txt" parse="text" /></screen>
 
     <para>
-      I invite you to read the manpage of nix-env. nix-env requires an operation
-      to perform, then there are common options for all operations, and there
-      are options specific to an operation.
+      I invite you to read the manpage of <literal>nix-env</literal>. <literal>nix-env</literal> requires an operation
+      to perform, then there are common options for all operations, as well as
+      options specific to each operation.
     </para>
 
     <para>
@@ -189,43 +188,44 @@
 
     <para>
       To query and manipulate the store, there's the
-      <literal>nix-store</literal> command. We can do neat things, but we'll
+      <literal>nix-store</literal> command. We can do some interesting things, but we'll
       only see some queries for now.
     </para>
 
     <para>
-      Show direct runtime dependencies of nix-repl:
+      To show the direct runtime dependencies of <literal>nix-repl</literal>:
     </para>
 
     <screen><xi:include href="./03/references.txt" parse="text" /></screen>
 
     <para>
-      The argument to nix-store can be anything as long as it points to the
-      nix store. It will follow symlinks.
+      The argument to <literal>nix-store</literal> can be anything as long as it points to the
+      Nix store. It will follow symlinks.
     </para>
 
     <para>
-      It may not make sense for you right now, but let's print reverse
-      dependencies of nix-repl:
+      It may not make sense to you right now, but let's print reverse
+      dependencies of <literal>nix-repl</literal>:
     </para>
 
     <screen><xi:include href="./03/referrers.txt" parse="text" /></screen>
 
     <para>
-      Did you expect it? Our environments depend upon nix-repl. Yes, the
-      environments are in the store, and since there are symlinks to nix-repl,
-      therefore the environment depends upon nix-repl
+      Was it what you expected? It turns out that our environments depend upon <literal>nix-repl</literal>.
+      Yes, that means that the environments are in the store, and since they contain symlinks to <literal>nix-repl</literal>,
+      therefore the environment depends upon <literal>nix-repl</literal>.
     </para>
 
     <para>
-      It lists two environments, generation 2 and generation 3.
+      Two environments were listed, generation 2 and generation 3, since these are the ones that had
+      <literal>nix-repl</literal> installed in them.
     </para>
 
     <para>
-      The manifest.nix file contains metadata about the environment, such as
-      which derivations are installed. So that nix-env can list them, upgrade
-      or remove them. Guess what, the current manifest.nix can be found in
-      <literal>~/.nix-profile/manifest.nix</literal>.
+      The <filename>manifest.nix</filename> file contains metadata about the environment, such as
+      which derivations are installed. So that <literal>nix-env</literal> can list, upgrade
+      or remove them. And yet again, the current <filename>manifest.nix</filename> can be found at
+      <filename>~/.nix-profile/manifest.nix</filename>.
     </para>
   </section>
 
@@ -233,16 +233,16 @@
     <title>Closures</title>
 
     <para>
-      The closures of a derivation is a list of all dependencies, recursively,
-      down to the bare minimum necessary to use that derivation.
+      The closures of a derivation is a list of all its dependencies, recursively,
+      including absolutely everything necessary to use that derivation.
     </para>
 
     <screen><xi:include href="./03/nix-store.txt" parse="text" /></screen>
 
     <para>
-      Copying all those derivations to the nix store of another machine makes
-      you able to run "man" out of the box on that other machine. That's the
-      base of nix deployment, you can already foresee the potential when
+      Copying all those derivations to the Nix store of another machine makes
+      you able to run <literal>man</literal> out of the box on that other machine. That's the
+      base of deployment using Nix, and you can already foresee the potential when
       deploying software in the cloud (hint:
       <literal>nix-copy-closures</literal> and
       <literal>nix-store --export</literal>).
@@ -255,9 +255,9 @@
     <screen><xi:include href="./03/nix-store-tree.txt" parse="text" /></screen>
 
     <para>
-      With the above command, you can know exactly why a
-      <emphasis role="bold">runtime</emphasis> dependency, being it direct or
-      indirect, has been picked for a given derivation.
+      With the above command, you can find out exactly why a
+      <emphasis>runtime</emphasis> dependency, be it direct or
+      indirect, exists for a given derivation.
     </para>
 
     <para>
